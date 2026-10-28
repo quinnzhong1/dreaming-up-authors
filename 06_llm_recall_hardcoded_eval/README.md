@@ -49,6 +49,8 @@ Each ground-truth author keeps its strongest match to an LLM name, matched greed
 
 The threshold is `MATCH_LEVEL_THRESHOLD = 4` in `common.py`. HR2 = (H + U) / (M + H + U) is the primary rate.
 
+The matcher's output depends on the name-parsing libraries, so `requirements.txt` pins the versions used for the paper: `nameparser==1.1.3` and `Unidecode==1.3.8`. With `nameparser` 2.7.0, `score_answers.py --check` drops to 9,090 / 9,098 / 9,097 identical rows (GPT-4o / DeepSeek-R1 / Claude).
+
 ## Released data
 
 `release/responses/<model>.csv.gz` has one row per paper with the raw answer (`llm_answer`), the ground truth (`ground_truth_authors`, a JSON list in publication order), and the counts `m`, `h`, `u`. HR1-HR5 are recomputed from the counts on load. For GPT-4o, `llm_eval_m`, `llm_eval_h`, `llm_eval_u` are the self-evaluation counts from module 04. `paper_id` is the Semantic Scholar `paperId` and is the join key everywhere.

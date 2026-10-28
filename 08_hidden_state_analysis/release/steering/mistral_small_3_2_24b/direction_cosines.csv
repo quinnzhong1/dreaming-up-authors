@@ -2,10 +2,6 @@ direction_a,direction_b,cosine,is_headline
 stage14_diff_of_means,h5_diff_of_means,0.967104,False
 stage14_diff_of_means,lda_fisher,0.249773,False
 stage14_diff_of_means,probe_ridge,0.4098,True
-stage14_diff_of_means,teacher_forced,0.050019,False
 h5_diff_of_means,lda_fisher,0.264247,False
 h5_diff_of_means,probe_ridge,0.435509,False
-h5_diff_of_means,teacher_forced,0.043061,False
 lda_fisher,probe_ridge,0.248582,False
-lda_fisher,teacher_forced,-0.011194,False
-probe_ridge,teacher_forced,-0.007667,False

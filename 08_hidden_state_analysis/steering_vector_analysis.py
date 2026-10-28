@@ -204,7 +204,6 @@ def main() -> None:
         "vector_norms": {name: float(np.linalg.norm(v)) for name, v in directions.items()},
         "directions_present": names,
         "steering_vector_path": args.steering_vector_path,
-        "teacher_forced_vector_path": args.teacher_forced_vector_path,
     }
     with open(out_dir / "vector_analysis_meta.json", "w") as f:
         json.dump(meta_out, f, indent=2)
