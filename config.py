@@ -43,11 +43,20 @@ OAG_RAW_DIR: Path = _path_from_env("OAG_RAW_DIR", DATA_DIR / "raw" / "oag_v2")
 OAG_FILE_PREFIX: str = "mag_papers_"
 OAG_FILE_COUNT: int = 11
 
-# Output of the Semantic Scholar matching + quality-filtering step (NDJSON, one
-# record per paper with "original.*" OAG fields and "semantic_scholar.*" fields).
+# Sampled OAG papers joined with their Semantic Scholar record, before the quality
+# filters (NDJSON, one record per paper with "original.*" OAG fields and
+# "semantic_scholar.*" fields). Input of 01/02b_filter_matched_records.py.
+MATCHED_UNFILTERED_NDJSON: Path = _path_from_env(
+    "MATCHED_UNFILTERED_NDJSON", DATA_DIR / "semantic_scholar_matched" / "matched_unfiltered.ndjson"
+)
+# Output of the Semantic Scholar matching + quality-filtering step (same format;
+# the 1,921,209 papers that pass all five filters).
 MATCHED_NDJSON: Path = _path_from_env(
     "MATCHED_NDJSON", DATA_DIR / "semantic_scholar_matched" / "matched_filtered.ndjson"
 )
+# FastText language-identification model used by the language filter
+# (https://fasttext.cc/docs/en/language-identification.html).
+FASTTEXT_LID: Path = _path_from_env("FASTTEXT_LID", DATA_DIR / "raw" / "lid.176.bin")
 
 # ---------------------------------------------------------------------------
 # Module 01: data collection
@@ -76,6 +85,35 @@ GPT4O_GENERATED_CSV: Path = GPT4O_RECALL_DIR / "generated_answers.csv"
 GPT4O_SELF_EVAL_CSV: Path = GPT4O_RECALL_DIR / "self_evaluated_answers.csv"
 MC_DIR: Path = RESULTS_DIR / "mc_recognition"
 FIGURES_DIR: Path = RESULTS_DIR / "figures"
+FILTER_FUNNEL_JSON: Path = RESULTS_DIR / "data_collection" / "filter_funnel.json"   # 01/02b
+
+# ---------------------------------------------------------------------------
+# Module 06: open-ended recall of three LLMs with the hard-coded evaluation
+# ---------------------------------------------------------------------------
+HARDCODED_EVAL_MODULE: Path = REPO_ROOT / "06_llm_recall_hardcoded_eval"
+# Released artifacts (tracked in git): the evaluation sample with full metadata
+# and every model's scored answers.
+EVAL_SAMPLE_RELEASE_CSV: Path = HARDCODED_EVAL_MODULE / "release" / "eval_sample_9108.csv.gz"
+RESPONSES_RELEASE_DIR: Path = HARDCODED_EVAL_MODULE / "release" / "responses"
+HARDCODED_EVAL_DIR: Path = RESULTS_DIR / "llm_recall_hardcoded_eval"
+LLM_RESPONSES_DIR: Path = HARDCODED_EVAL_DIR / "responses"    # new query_llms.py runs
+API_CACHE_DIR: Path = DATA_DIR / "cache"
+
+# ---------------------------------------------------------------------------
+# Module 07: additional analyses (author position, author count, ethnicity,
+# title length, regression, prompt sensitivity)
+# ---------------------------------------------------------------------------
+ADDITIONAL_ANALYSES_MODULE: Path = REPO_ROOT / "07_additional_analyses"
+# Released artifacts (tracked in git): surname tallies and prompt-sensitivity CSVs.
+NAME_FREQUENCY_RELEASE_DIR: Path = ADDITIONAL_ANALYSES_MODULE / "release" / "name_frequency"
+PROMPT_SENSITIVITY_RELEASE_DIR: Path = ADDITIONAL_ANALYSES_MODULE / "release" / "prompt_sensitivity"
+ADDITIONAL_ANALYSES_DIR: Path = RESULTS_DIR / "additional_analyses"
+
+# ---------------------------------------------------------------------------
+# Module 08: hidden-state analysis of two open models
+# ---------------------------------------------------------------------------
+# The prompt CSV every GPU stage reads (--data_csv), rebuilt from the evaluation sample.
+PROBING_PROMPTS_CSV: Path = DATA_DIR / "probing" / "probing_prompts_9108.csv"
 
 # ---------------------------------------------------------------------------
 # Shared constants

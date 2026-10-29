@@ -1,0 +1,11 @@
+comparison,prompt,baseline,metric,n,baseline_mean,prompt_mean,mean_diff,abs_mean_diff,mean_diff_ci_low,mean_diff_ci_high,mean_diff_p_two_sided,n_boot
+emotional_minus_baseline,emotional,baseline,hr1,1004,0.851263,0.849835,-0.001427,0.001427,-0.016736,0.013798,0.847915,10000
+emotional_minus_baseline,emotional,baseline,hr2,1004,0.864393,0.86173,-0.002663,0.002663,-0.017125,0.011999,0.717128,10000
+emotional_minus_baseline,emotional,baseline,hr3,1004,0.800527,0.802988,0.002461,0.002461,-0.016517,0.021673,0.79612,10000
+emotional_minus_baseline,emotional,baseline,hr4,1004,0.835231,0.835835,0.000604,0.000604,-0.016089,0.017333,0.945505,10000
+emotional_minus_baseline,emotional,baseline,hr5,1004,0.82327,0.81546,-0.00781,0.00781,-0.02466,0.008833,0.353965,10000
+authoritative_minus_baseline,authoritative,baseline,hr1,1004,0.851263,0.856063,0.004801,0.004801,-0.010998,0.020466,0.546545,10000
+authoritative_minus_baseline,authoritative,baseline,hr2,1004,0.864393,0.867404,0.003011,0.003011,-0.012538,0.018581,0.686331,10000
+authoritative_minus_baseline,authoritative,baseline,hr3,1004,0.800527,0.816872,0.016346,0.016346,-0.002355,0.035333,0.090791,10000
+authoritative_minus_baseline,authoritative,baseline,hr4,1004,0.835231,0.845084,0.009853,0.009853,-0.006748,0.026388,0.251175,10000
+authoritative_minus_baseline,authoritative,baseline,hr5,1004,0.82327,0.823463,0.000193,0.000193,-0.016634,0.017514,0.993901,10000

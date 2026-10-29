@@ -1,0 +1,7 @@
+model,feature_set,n,n_features,r2_cv,spearman_rho_cv,best_alpha,protocol
+qwen3_32b,tfidf_bow,9101,200,0.057539,0.23776,1000.0,fold_safe_tfidf_svd_scaler_ridge
+qwen3_32b,sbert_frozen,9101,384,0.128147,0.357183,1000.0,frozen_sbert_scaler_ridge
+qwen3_32b,tfidf_bow+sbert_frozen,9101,584,0.136762,0.370462,1000.0,fold_safe_tfidf_svd_plus_sbert_scaler_ridge
+mistral_small_3_2_24b,tfidf_bow,9101,200,0.057539,0.23776,1000.0,fold_safe_tfidf_svd_scaler_ridge
+mistral_small_3_2_24b,sbert_frozen,9101,384,0.128147,0.357183,1000.0,frozen_sbert_scaler_ridge
+mistral_small_3_2_24b,tfidf_bow+sbert_frozen,9101,584,0.136762,0.370462,1000.0,fold_safe_tfidf_svd_plus_sbert_scaler_ridge

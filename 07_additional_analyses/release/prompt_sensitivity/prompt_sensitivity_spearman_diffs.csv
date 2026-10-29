@@ -1,0 +1,11 @@
+comparison,prompt,baseline,metric,n,baseline_rho,prompt_rho,rho_diff,abs_rho_diff,rho_diff_ci_low,rho_diff_ci_high,rho_diff_p_two_sided,n_boot
+emotional_minus_baseline,emotional,baseline,hr1,1004,-0.446964,-0.474149,-0.027185,0.027185,-0.070346,0.015312,0.211579,10000
+emotional_minus_baseline,emotional,baseline,hr2,1004,-0.44954,-0.475491,-0.025951,0.025951,-0.068146,0.01741,0.232777,10000
+emotional_minus_baseline,emotional,baseline,hr3,1004,-0.445453,-0.461705,-0.016253,0.016253,-0.060129,0.028401,0.488151,10000
+emotional_minus_baseline,emotional,baseline,hr4,1004,-0.453197,-0.473337,-0.02014,0.02014,-0.063644,0.02209,0.355964,10000
+emotional_minus_baseline,emotional,baseline,hr5,1004,-0.44946,-0.474192,-0.024733,0.024733,-0.067878,0.018802,0.263174,10000
+authoritative_minus_baseline,authoritative,baseline,hr1,1004,-0.446964,-0.47571,-0.028746,0.028746,-0.073451,0.015935,0.20078,10000
+authoritative_minus_baseline,authoritative,baseline,hr2,1004,-0.44954,-0.476584,-0.027043,0.027043,-0.071755,0.015436,0.220778,10000
+authoritative_minus_baseline,authoritative,baseline,hr3,1004,-0.445453,-0.470989,-0.025536,0.025536,-0.071176,0.020495,0.273173,10000
+authoritative_minus_baseline,authoritative,baseline,hr4,1004,-0.453197,-0.477565,-0.024368,0.024368,-0.067568,0.019072,0.275772,10000
+authoritative_minus_baseline,authoritative,baseline,hr5,1004,-0.44946,-0.472586,-0.023127,0.023127,-0.06742,0.022472,0.310969,10000

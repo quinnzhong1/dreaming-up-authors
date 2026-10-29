@@ -1,0 +1,4 @@
+# Released artifacts are byte-preserved: some CSVs have CRLF line endings, and
+# normalising them would change the files the tables are built from.
+07_additional_analyses/release/** -text -diff
+08_hidden_state_analysis/release/** -text -diff

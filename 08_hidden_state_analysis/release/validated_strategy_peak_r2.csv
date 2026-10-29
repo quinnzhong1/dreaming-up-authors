@@ -1,0 +1,11 @@
+model,strategy,peak_layer_idx,peak_layer_depth_pct,peak_r2_cv,peak_spearman_rho_cv,best_alpha,n,protocol
+mistral_small_3_2_24b,p1,22,56.4,0.584697,0.759167,0.01,9108,fold_safe_pca_scaler_ridge
+mistral_small_3_2_24b,p2,18,46.2,0.545284,0.730772,0.01,9108,fold_safe_pca_scaler_ridge
+mistral_small_3_2_24b,p3,36,92.3,0.330223,0.562627,0.01,9108,fold_safe_pca_scaler_ridge
+mistral_small_3_2_24b,p4,16,41.0,0.545594,0.735393,0.01,9108,fold_safe_pca_scaler_ridge
+mistral_small_3_2_24b,p5,16,41.0,0.517648,0.712086,0.01,9108,fold_safe_pca_scaler_ridge
+qwen3_32b,p1,48,76.2,0.614666,0.776169,0.01,9108,fold_safe_pca_scaler_ridge
+qwen3_32b,p2,46,73.0,0.578216,0.748802,0.01,9108,fold_safe_pca_scaler_ridge
+qwen3_32b,p3,63,100.0,0.293923,0.534819,100.0,9108,fold_safe_pca_scaler_ridge
+qwen3_32b,p4,48,76.2,0.570489,0.744702,0.01,9108,fold_safe_pca_scaler_ridge
+qwen3_32b,p5,44,69.8,0.489608,0.68995,0.01,9108,fold_safe_pca_scaler_ridge

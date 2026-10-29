@@ -1,0 +1,3 @@
+model,layer_idx,n,title_only_r2_cv,p1_on_raw_log_citation_r2_cv,p1_on_title_residual_r2_cv,delta_p1_minus_title,note
+qwen3_32b,48,9101,0.126079,0.615251,0.520057,0.489172,p1_on_title_residual_r2_cv is P1's R^2 predicting what's left of log-citation after the combined TF-IDF+SBERT title model's OOF prediction is subtracted out; a value well above 0 means P1 carries prevalence signal that title lexical features cannot explain.
+mistral_small_3_2_24b,22,9101,0.126079,0.585833,0.483435,0.459754,p1_on_title_residual_r2_cv is P1's R^2 predicting what's left of log-citation after the combined TF-IDF+SBERT title model's OOF prediction is subtracted out; a value well above 0 means P1 carries prevalence signal that title lexical features cannot explain.

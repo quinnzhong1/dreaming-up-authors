@@ -1,0 +1,22 @@
+# Module 08 (hidden-state analysis), on top of requirements.txt.
+#
+# Install the torch build that matches your CUDA version first:
+#   https://pytorch.org/get-started/locally/
+torch>=2.4
+transformers>=4.51
+accelerate>=0.34
+# Hidden states are written to and read from HDF5 (extract_hidden_states.py,
+# score_open_model.py, and every stage that imports it).
+h5py>=3.10
+# Ridge and logistic probes, PCA (prevalence_decoding.py, title_only_baselines.py,
+# p9_entity_probe.py, steering_vector_analysis.py)
+scikit-learn>=1.5
+# SBERT title-only baseline (title_only_baselines.py)
+sentence-transformers>=3.0
+# Mistral-Small-3.2 tokenizer when the checkpoint ships tekken.json only
+mistral-common>=1.5
+# Optional: 8-bit / 4-bit loading (--quantize)
+# bitsandbytes>=0.43
+#
+# mediation.py also needs R with the `mediation` package:
+#   Rscript -e 'install.packages("mediation")'

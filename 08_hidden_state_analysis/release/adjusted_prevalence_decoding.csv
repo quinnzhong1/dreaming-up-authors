@@ -1,0 +1,9 @@
+model,strategy,layer_idx,layer_depth_pct,feature_set,n,n_features,r2_cv,spearman_rho_cv,best_alpha,protocol,metadata_r2_cv,embedding_only_r2_cv,combined_r2_cv
+qwen3_32b,p1,48,76.2,metadata_controls,9108,12,0.038952,0.179881,100.0,metadata_scaled_ridge,,,
+qwen3_32b,p1,48,76.2,p1_embedding_fold_safe_pca,9108,100,0.614666,0.776169,0.01,fold_safe_pca_scaler_ridge,,,
+qwen3_32b,p1,48,76.2,metadata_plus_p1_embedding_fold_safe_pca,9108,112,0.620349,0.779995,0.01,fold_safe_pca_scaler_ridge,,,
+qwen3_32b,p1,48,76.2,incremental_embedding_over_metadata,9108,112,0.581397,,,fold_safe_pca_scaler_ridge,0.038952,0.614666,0.620349
+mistral_small_3_2_24b,p1,22,56.4,metadata_controls,9108,12,0.038952,0.179881,100.0,metadata_scaled_ridge,,,
+mistral_small_3_2_24b,p1,22,56.4,p1_embedding_fold_safe_pca,9108,100,0.584697,0.759167,0.01,fold_safe_pca_scaler_ridge,,,
+mistral_small_3_2_24b,p1,22,56.4,metadata_plus_p1_embedding_fold_safe_pca,9108,112,0.59043,0.763675,0.01,fold_safe_pca_scaler_ridge,,,
+mistral_small_3_2_24b,p1,22,56.4,incremental_embedding_over_metadata,9108,112,0.551478,,,fold_safe_pca_scaler_ridge,0.038952,0.584697,0.59043

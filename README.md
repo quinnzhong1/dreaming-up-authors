@@ -11,8 +11,11 @@ The paper asks whether LLMs hallucinate more when they attribute authors to pape
 | [`03_llm_corpus_occurrence/`](03_llm_corpus_occurrence) | Infini-gram n-gram counts in open pretraining corpora (OLMo2-32B, RedPajama) vs. citation count | Section 3.2, Figure 2 (right), Appendix "LLM Corpus Occurrence Analysis" |
 | [`04_gpt4o_recall_llm_selfeval/`](04_gpt4o_recall_llm_selfeval) | Open-ended authorship attribution with GPT-4o, scored by LLM self-evaluation | Appendix "Evaluation Method Comparison"; input to module 05 |
 | [`05_mc_recognition/`](05_mc_recognition) | Multiple-choice recognition experiment (recall vs. recognition) with three distractor constructions | Section 6, Appendix "More Details on Multiple-choice Recognition Analysis" |
+| [`06_llm_recall_hardcoded_eval/`](06_llm_recall_hardcoded_eval) | **Main results**: open-ended attribution by GPT-4o, DeepSeek-R1 and Claude Sonnet 4.5, scored by the hard-coded name matcher; HR1-HR5 vs. citation count | Sections 4-5, Figures 3-5, Tables 2-3, A18, A22-A25 |
+| [`07_additional_analyses/`](07_additional_analyses) | Robustness checks: author position, author count, ethnicity of hallucinated names, title length, multivariate models, prompt wording | Section 8, Figures A6-A8, Tables A26-A33 |
+| [`08_hidden_state_analysis/`](08_hidden_state_analysis) | Hidden states of Qwen3-32B and Mistral-Small-3.2-24B: prevalence decoding, mediation, activation steering, P9 entity probe | Section 7, Figures 7, A11-A12, Tables A37-A44 |
 
-> **Main results.** The main hallucination-rate results (hard-coded evaluation; GPT-4o, DeepSeek-R1 and Claude Sonnet 4.5), the Semantic Scholar matching and quality filtering, and the hidden-state analyses are in **[PLACEHOLDER: link to the co-author's code / folder]**. Module 04 here is the GPT-4o run with LLM self-evaluation; it is used for the evaluation-method comparison and as the recall baseline of the MC experiment.
+> **Main results.** Module 06 holds the main hallucination-rate results and ships every model's answers, so all Section 5 tables and figures regenerate without an API key. Module 04 is the GPT-4o run with LLM self-evaluation; it is used for the evaluation-method comparison (module 06, `analyze_eval_agreement.py`) and as the recall baseline of the MC experiment. Module 08 holds the hidden-state analyses (Section 7) and ships the outputs of the paper's runs.
 
 ---
 
@@ -32,8 +35,11 @@ The paper asks whether LLMs hallucinate more when they attribute authors to pape
   - [5. Module 03: LLM corpus occurrence (Infini-gram)](#5-module-03-llm-corpus-occurrence-infini-gram)
   - [6. Module 04: GPT-4o open-ended recall (LLM self-evaluation)](#6-module-04-gpt-4o-open-ended-recall-llm-self-evaluation)
   - [7. Module 05: multiple-choice recognition](#7-module-05-multiple-choice-recognition)
-  - [8. Reproducibility notes](#8-reproducibility-notes)
-  - [9. Citation](#9-citation)
+  - [8. Module 06: three-LLM recall, hard-coded evaluation](#8-module-06-three-llm-recall-hard-coded-evaluation)
+  - [9. Module 07: additional analyses](#9-module-07-additional-analyses)
+  - [10. Module 08: hidden-state analysis](#10-module-08-hidden-state-analysis)
+  - [11. Reproducibility notes](#11-reproducibility-notes)
+  - [12. Citation](#12-citation)
 
 ---
 
@@ -58,7 +64,8 @@ Only the keys for the modules you run are needed. `.env` is git-ignored; never c
 
 | Variable | Needed for | Where to get it |
 |---|---|---|
-| `OPENAI_API_KEY` | modules 04 and 05 | <https://platform.openai.com/api-keys> |
+| `OPENAI_API_KEY` | modules 04, 05, and GPT-4o in 06 | <https://platform.openai.com/api-keys> |
+| `OPENROUTER_API_KEY` | DeepSeek-R1 and Claude Sonnet 4.5 in module 06, prompt variants for module 07 | <https://openrouter.ai/keys> |
 | `BRIGHTDATA_API_KEY`, `BRIGHTDATA_ZONE` | module 02 | a BrightData account with a SERP API zone |
 | `S2_API_KEY` (optional) | `01/07_fetch_datasets_from_ids.py`, `05/fetch_collaborators.py` | <https://www.semanticscholar.org/product/api>; without a key the shared rate limit (~1 request/s) is used |
 
@@ -73,7 +80,9 @@ All paths are defined in [`config.py`](config.py). By default, intermediate data
 | `DATA_DIR` | `./data` | all intermediate datasets |
 | `RESULTS_DIR` | `./results` | API outputs, tables, figures |
 | `OAG_RAW_DIR` | `$DATA_DIR/raw/oag_v2` | extracted OAG v2 files `mag_papers_0.txt` ... `mag_papers_10.txt` |
+| `MATCHED_UNFILTERED_NDJSON` | `$DATA_DIR/semantic_scholar_matched/matched_unfiltered.ndjson` | sampled OAG papers joined with Semantic Scholar, input of the quality filter (step 2b) |
 | `MATCHED_NDJSON` | `$DATA_DIR/semantic_scholar_matched/matched_filtered.ndjson` | output of the Semantic Scholar matching + filtering step |
+| `FASTTEXT_LID` | `$DATA_DIR/raw/lid.176.bin` | FastText language-ID model for the language filter (step 2b) |
 
 ### How to run
 
@@ -87,11 +96,14 @@ All paths are defined in [`config.py`](config.py). By default, intermediate data
 ```
 OAG v2 (MAG papers, ~100 GB)
   └─ 01/01_sample_oag_papers.py ........... 10M random papers
-       └─ [Semantic Scholar matching + 5 quality filters: co-author's code, see PLACEHOLDER]
-            └─ matched NDJSON
+       └─ [Semantic Scholar title search: not in this repository]
+            └─ 01/02b_filter_matched_records.py ... 5 quality filters -> matched NDJSON (1.92M papers)
                  └─ 01/03_flatten_matched_records.py ... CSV chunks
                       ├─ 01/05_sample_eval_set.py ....... 9,108-paper evaluation set ─┬─ 04 GPT-4o recall (self-evaluation)
-                      │                                                                  └─ 05 MC recognition (uses 04)
+                      │                                                                  ├─ 05 MC recognition (uses 04)
+                      │                                                                  ├─ 06 three-LLM recall, hard-coded evaluation (main results; uses 04 for A22-A23)
+                      │                                                                  │    └─ 07 additional analyses (Section 8; reads 06's released answers)
+                      │                                                                  └─ 08 hidden states of two open models (GPU; Section 7)
                       └─ 01/04_build_query_fields.py
                            └─ 01/06_sample_proxy_set.py . 6,048-paper proxy set ─┬─ 02 Google search hits
                                                                                   └─ 03 Infini-gram counts ── Figure 2
@@ -111,7 +123,7 @@ Shortcut: 01/07_fetch_datasets_from_ids.py rebuilds both sets from the released 
 python 01_data_collection/07_fetch_datasets_from_ids.py --set all
 ```
 
-This fetches the remaining metadata (titles and years; author lists for the proxy sets) from the Semantic Scholar API and writes `eval_set_9108.csv`, `proxy_set_6048.csv` and `proxy_set_6048_resample.csv` in the same format as steps 5 and 6 (see [Section 8](#8-reproducibility-notes) for caveats).
+This fetches the remaining metadata (titles and years; author lists for the proxy sets) from the Semantic Scholar API and writes `eval_set_9108.csv`, `proxy_set_6048.csv` and `proxy_set_6048_resample.csv` in the same format as steps 5 and 6 (see [Section 11](#11-reproducibility-notes) for caveats).
 
 ---
 
@@ -129,7 +141,8 @@ Download the MAG paper files of **Open Academic Graph v2** (`mag_papers_0.zip`, 
 |---|---|---|---|
 | 1 | `python 01_data_collection/01_sample_oag_papers.py` | `data/oag_sample/sampled_mag_papers_all_fields_chunk_{0..9}.csv` | 10 rounds of reservoir sampling (1M papers each, disjoint, seed 1234). Reads the full dump 10 times, so it takes many hours. |
 | 2 | `python 01_data_collection/02_check_duplicates.py` | (printout) | Confirms that the 10M sampled papers are unique. |
-| - | *Semantic Scholar matching + quality filtering* | `MATCHED_NDJSON` | **Not part of this folder:** [PLACEHOLDER: link to the co-author's code]. It keeps journal/conference papers with 1-20 authors and English titles (fastText), removes malformed author names, matches the papers to Semantic Scholar (up-to-date citation counts, author names, fields of study) and keeps only exact title / first-author matches (Appendix, "Details of Data Filtering"). Each output line holds the OAG fields under `original.*` and the Semantic Scholar record under `semantic_scholar.*`. |
+| - | *Semantic Scholar matching* | `MATCHED_UNFILTERED_NDJSON` | **Not part of this repository.** Each sampled OAG paper is searched on Semantic Scholar by title (up-to-date citation counts, author names, fields of study). Each output line holds the OAG fields under `original.*` and the Semantic Scholar record under `semantic_scholar.*`. |
+| 2b | `python 01_data_collection/02b_filter_matched_records.py` | `MATCHED_NDJSON`, `results/data_collection/filter_funnel.json` | The five quality filters, in order (Appendix, "Details of Data Filtering", Figure A1): journal/conference papers only, 1-20 authors, English (fastText on the Semantic Scholar title + abstract, confidence >= 0.8), no malformed author names, and an exact title / first-author match between OAG and Semantic Scholar. Without `FASTTEXT_LID` the language filter passes everything and the script warns. |
 | 3 | `python 01_data_collection/03_flatten_matched_records.py` | `data/matched_chunks/chunk_{i}.csv` | Flattens the NDJSON into CSV chunks of 10,000 papers. |
 | 4 | `python 01_data_collection/04_build_query_fields.py` | `data/query_fields/samples_google_search_{i}.csv` | Author-name lists, last names, and the Google query `"title" "author 1" "author 2" ...`. |
 | 5 | `python 01_data_collection/05_sample_eval_set.py` | `data/eval_set/eval_set_9108.csv` (+ `_all_columns.csv`) | Stratified evaluation set: 8 fields x 13 citation bins, up to 100 papers per stratum; 9,108 papers. |
@@ -196,7 +209,7 @@ python 03_llm_corpus_occurrence/plot_prevalence_proxy_figure.py   # -> results/f
 
 Folder: [`04_gpt4o_recall_llm_selfeval/`](04_gpt4o_recall_llm_selfeval). Input: `data/eval_set/eval_set_9108.csv`.
 
-> This is **not** the pipeline behind the paper's main hallucination-rate results; those use the hard-coded evaluation and three LLMs and are in [PLACEHOLDER: co-author's code]. See the folder's [README](04_gpt4o_recall_llm_selfeval/README.md).
+> This is **not** the pipeline behind the paper's main hallucination-rate results; those use the hard-coded evaluation and three LLMs and are in [module 06](#8-module-06-three-llm-recall-hard-coded-evaluation). See the folder's [README](04_gpt4o_recall_llm_selfeval/README.md).
 
 1. **Generate and self-evaluate** (2 x 9,108 OpenAI calls to `chatgpt-4o-latest`, temperature 0; about 6 hours; saved every 100 papers and resumable):
    ```bash
@@ -256,19 +269,72 @@ python 05_mc_recognition/compare_variants.py
 
 ---
 
-## 8. Reproducibility notes
+## 8. Module 06: three-LLM recall, hard-coded evaluation
+
+Folder: [`06_llm_recall_hardcoded_eval/`](06_llm_recall_hardcoded_eval). Input: the released `06_llm_recall_hardcoded_eval/release/` (tracked in git).
+
+The released answers and their (M, H, U) counts are shipped, so the analyses run offline:
+
+```bash
+python 06_llm_recall_hardcoded_eval/analyze_results.py              # Figures 3-5, A4-A5; Tables 2, 3, A18, A24, A25
+python 06_llm_recall_hardcoded_eval/analyze_eval_agreement.py       # matcher vs. self-evaluation, Tables A22-A23
+python 06_llm_recall_hardcoded_eval/score_answers.py --check        # re-score the released answers
+```
+
+To collect new answers (temperature 0; GPT-4o via OpenAI, the other two via OpenRouter; resumable):
+
+```bash
+python 06_llm_recall_hardcoded_eval/query_llms.py --model gpt-4o   # or deepseek-r1, claude-sonnet-4.5
+python 06_llm_recall_hardcoded_eval/score_answers.py <answers.ndjson> <scored.csv>
+```
+
+The matcher accepts a ground-truth author as retrieved at levels L1-L4 (exact, Unicode-folded, alpha-only, surname + full first name, surname + first initial); a surname-only match (L5) counts as one hallucinated and one unretrieved author. See the folder's [README](06_llm_recall_hardcoded_eval/README.md).
+
+**Results** (in `results/llm_recall_hardcoded_eval/`): one `.tex` per table (`tabular` only), one `.pdf` per figure, and a `.json` with the values behind each; `headline_numbers.json` holds the numbers quoted in the abstract and conclusion.
+
+---
+
+## 9. Module 07: additional analyses
+
+Folder: [`07_additional_analyses/`](07_additional_analyses). Inputs: module 06's `release/` and the small artifacts in `07_additional_analyses/release/` (surname tallies, prompt-sensitivity CSVs; tracked in git).
+
+```bash
+python 07_additional_analyses/analyze_position.py              # author position, Figure A6
+python 07_additional_analyses/analyze_author_count.py          # author count, Tables A26-A27
+python 07_additional_analyses/analyze_title_length.py          # title length, Table A29
+python 07_additional_analyses/analyze_regression.py            # multivariate and mixed-effects models, Table A30
+python 07_additional_analyses/analyze_prompt_sensitivity.py    # prompt wording, Tables A31-A33
+python 07_additional_analyses/analyze_ethnicity.py             # Table A28, Figures A7-A8; needs ethnicseer, ~6 min
+```
+
+The prompt-sensitivity run queries DeepSeek-R1 on a proportional stratified subsample of 1,004 papers with the baseline, an emotional and an authoritative prompt (`query_llms.py --model deepseek-r1-emotional --ids ...`), and `prompt_sensitivity_significance.py` compares the variants with a paired bootstrap over papers. See the folder's [README](07_additional_analyses/README.md) for the full commands and caveats.
+
+**Results** (in `results/additional_analyses/`): same format as module 06.
+
+---
+
+## 10. Module 08: hidden-state analysis
+
+Folder: [`08_hidden_state_analysis/`](08_hidden_state_analysis). Input: the released `08_hidden_state_analysis/release/` (tracked in git) and, for the GPU stages, the prompt CSV built from module 06's sample.
+
+The stages run Qwen3-32B (peak layer 48) and Mistral-Small-3.2-24B (peak layer 22) over the 9,108 papers: 6-12 GPU-hours and 40-90 GB of scratch disk per model. Install `requirements-probing.txt` (torch, transformers, h5py, scikit-learn, sentence-transformers); `mediation.py` also needs R with the `mediation` package. The run order is in the folder's [README](08_hidden_state_analysis/README.md). The outputs of the paper's runs (probing CSVs, per-paper scores, steering vectors and results) are shipped in `08_hidden_state_analysis/release/`.
+
+---
+
+## 11. Reproducibility notes
 
 * **Random seeds.** OAG sampling uses seed 1234; MC option construction uses seed 42. The evaluation set and the proxy set are filled greedily in file order from the (randomly sampled) matched chunks, so they are deterministic given the same matched data.
 * **Exact paper sets.** `01_data_collection/paper_ids_*.csv` list the papers of the evaluation set and the two proxy sets in their original row order (the order matters for the seeded MC option builder), together with the citation count and citation bin from the September 2025 Semantic Scholar snapshot used in the paper; the evaluation-set file also stores the field and the ground-truth author list. `07_fetch_datasets_from_ids.py` keeps these stored values, so every evaluation paper keeps its original bin, field and authors (Semantic Scholar revises author names over time, e.g. "S. Bree" became "S. V. van Bree"), and the seeded MC options are reproduced exactly. Author names are stored exactly as they appeared in Semantic Scholar, so a few of them (22 names in 8 papers) contain non-Latin characters. It also reports how many papers would fall into a different bin with today's counts. Titles and years, and the author lists of the proxy sets, are fetched live.
 * **Semantic Scholar-dependent steps.** The collaborator pools (`fetch_collaborators.py`) are fetched live, so the `collaborator_swap` distractors will not be identical to the paper's.
+* **Module 06 data.** `06_llm_recall_hardcoded_eval/release/eval_sample_9108.csv.gz` holds the same 9,108 papers as `paper_ids_9108.csv` with titles, years, DOIs and venues, so module 06 needs no Semantic Scholar call. Re-scoring the released answers reproduces the stored (M, H, U) for every DeepSeek-R1 and Claude Sonnet 4.5 answer and for 9,095 of 9,108 GPT-4o answers (see the module README).
 * **LLM versions.** Module 04 uses the `chatgpt-4o-latest` alias and module 05 uses `gpt-4o`. Both point to model snapshots that OpenAI updates or retires over time, so newly generated answers can differ slightly from the paper even at temperature 0.
 * **MC prompt.** The demonstration items are kept verbatim as used in the paper. The `original` run used a three-author second example; the two harder variants were run later with a seven-author second example (see `FEW_SHOT_BY_VARIANT` in `query_gpt4o.py`).
 * **Web search.** Google hit counts depend on the live index and on BrightData's rendering, so they vary between crawls.
-* **Costs.** Module 02 needs about 6,000 paid SERP requests; module 04 about 18,000 chat-completion calls; module 05 one Batch API job of 9,108 short requests per variant.
+* **Costs.** Module 02 needs about 6,000 paid SERP requests; module 04 about 18,000 chat-completion calls; module 05 one Batch API job of 9,108 short requests per variant; module 06 9,108 chat-completion calls per model; the module 07 prompt variants 1,004 DeepSeek-R1 calls per variant.
 
 ---
 
-## 9. Citation
+## 12. Citation
 
 ```bibtex
 @inproceedings{dreaming-up-authors-2026,

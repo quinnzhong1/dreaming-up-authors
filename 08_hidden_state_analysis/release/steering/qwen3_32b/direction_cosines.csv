@@ -1,0 +1,7 @@
+direction_a,direction_b,cosine,is_headline
+stage14_diff_of_means,h5_diff_of_means,0.981716,False
+stage14_diff_of_means,lda_fisher,0.184566,False
+stage14_diff_of_means,probe_ridge,0.268904,True
+h5_diff_of_means,lda_fisher,0.198769,False
+h5_diff_of_means,probe_ridge,0.268182,False
+lda_fisher,probe_ridge,0.233212,False

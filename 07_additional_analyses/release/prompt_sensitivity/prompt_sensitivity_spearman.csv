@@ -1,0 +1,16 @@
+prompt,metric,n,spearman_rho
+baseline,hr1,1004,-0.446964
+baseline,hr2,1004,-0.44954
+baseline,hr3,1004,-0.445453
+baseline,hr4,1004,-0.453197
+baseline,hr5,1004,-0.44946
+emotional,hr1,1004,-0.474149
+emotional,hr2,1004,-0.475491
+emotional,hr3,1004,-0.461705
+emotional,hr4,1004,-0.473337
+emotional,hr5,1004,-0.474192
+authoritative,hr1,1004,-0.47571
+authoritative,hr2,1004,-0.476584
+authoritative,hr3,1004,-0.470989
+authoritative,hr4,1004,-0.477565
+authoritative,hr5,1004,-0.472586

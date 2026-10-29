@@ -1,0 +1,9 @@
+pool,condition,direction,alpha,n,mean_hr2,hallucination_rate_pct,mean_output_tokens,pct_degenerate
+eval_low,baseline,none,0.0,100,0.999643,100.0,28.11,0.0
+eval_low,steering,toward_cited,1.0,100,0.999643,100.0,26.46,0.0
+eval_low,control_0,toward_cited,1.0,100,1.0,100.0,29.11,0.0
+eval_low,steering,toward_cited,2.0,100,1.0,100.0,25.36,0.0
+eval_low,control_0,toward_cited,2.0,100,0.99963,100.0,31.44,0.0
+eval_high,baseline,none,0.0,50,0.667,36.0,13.4,0.0
+eval_high,steering,toward_hallucinated,1.0,50,0.753952,60.0,20.92,0.0
+eval_high,steering,toward_hallucinated,2.0,50,0.883667,82.0,24.16,0.0

@@ -8,6 +8,8 @@ data/
 results/
 *.csv
 !01_data_collection/paper_ids_*.csv
+!07_additional_analyses/release/**/*.csv
+!08_hidden_state_analysis/release/**/*.csv
 *.jsonl
 *.ndjson
 *.zip
@@ -21,3 +23,4 @@ __pycache__/
 .DS_Store
 .idea/
 .vscode/
+

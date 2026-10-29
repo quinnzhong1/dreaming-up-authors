@@ -1,0 +1,13 @@
+condition,vector,positions,alpha,seed,n,mean_hr2,hallucination_rate_pct,mean_output_tokens,pct_degenerate,pct_dup_names,mean_type_token_ratio
+baseline,none,none,0.0,-1,50,0.196333,10.0,12.92,0.0,0.0,0.9892
+induce,diff_of_means,all,2.0,-1,50,0.706252,70.0,25.28,0.0,4.0,0.9152
+induce,diff_of_means,p1_and_gen,2.0,-1,50,0.406,36.0,16.86,0.0,2.0,0.9676
+induce,diff_of_means,prompt_only,2.0,-1,50,0.566143,52.0,15.38,0.0,2.0,0.9597
+induce,probe,all,2.0,-1,50,0.586626,58.0,15.9,0.0,0.0,0.9798
+induce,probe,p1_and_gen,2.0,-1,50,0.392087,36.0,14.88,0.0,2.0,0.9798
+induce,probe,prompt_only,2.0,-1,50,0.380778,30.0,12.3,0.0,0.0,0.9942
+random_control,random,all,2.0,542,50,0.377708,30.0,14.52,0.0,2.0,0.9843
+random_control,random,all,2.0,543,50,0.447021,44.0,15.42,0.0,0.0,0.9874
+random_control,random,all,2.0,544,50,0.503333,48.0,16.32,0.0,2.0,0.9779
+random_control,random,all,2.0,545,50,0.422906,38.0,14.56,0.0,0.0,0.9722
+random_control,random,all,2.0,546,50,0.473033,44.0,14.78,0.0,0.0,0.9858

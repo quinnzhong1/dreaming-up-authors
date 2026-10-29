@@ -1,0 +1,11 @@
+model,strategy,layer_idx,label_definition,n,positive_rate,auroc,auprc,accuracy_at_0_5,balanced_accuracy_at_0_5
+qwen3_32b,p1,48,zero_vs_cited,9108,0.953777,0.833036,0.989407,0.774704,0.740631
+qwen3_32b,p1,48,above_median_gt_50.5,9108,0.5,0.894956,0.900703,0.811704,0.811704
+qwen3_32b,p1,48,head_tail_q25_8_q75_339.25,4672,0.487372,0.974658,0.974369,0.920377,0.920142
+qwen3_32b,p1,48,top_decile_ge_1188,9108,0.100242,0.94558,0.687009,0.875384,0.872841
+qwen3_32b,p1,48,citation_quartile_multiclass,9108,,,,0.569829,0.56738
+mistral_small_3_2_24b,p1,22,zero_vs_cited,9108,0.953777,0.83199,0.989231,0.778217,0.745863
+mistral_small_3_2_24b,p1,22,above_median_gt_50.5,9108,0.5,0.888332,0.893644,0.803909,0.803909
+mistral_small_3_2_24b,p1,22,head_tail_q25_8_q75_339.25,4672,0.487372,0.969991,0.967848,0.911387,0.911298
+mistral_small_3_2_24b,p1,22,top_decile_ge_1188,9108,0.100242,0.929972,0.604674,0.859794,0.862717
+mistral_small_3_2_24b,p1,22,citation_quartile_multiclass,9108,,,,0.555116,0.552727

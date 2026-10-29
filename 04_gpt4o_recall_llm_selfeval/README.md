@@ -1,6 +1,6 @@
 # GPT-4o open-ended recall with LLM self-evaluation
 
-**This folder does not produce the paper's main results.** The main hallucination-rate results (Section 5: hard-coded fuzzy-matching evaluation of GPT-4o, DeepSeek-R1 and Claude Sonnet 4.5) are in [PLACEHOLDER: link to the co-author's code / folder].
+**This folder does not produce the paper's main results.** The main hallucination-rate results (Section 5: hard-coded fuzzy-matching evaluation of GPT-4o, DeepSeek-R1 and Claude Sonnet 4.5) are in [`../06_llm_recall_hardcoded_eval/`](../06_llm_recall_hardcoded_eval).
 
 This folder contains a GPT-4o run in which the same model scores its own answers ("LLM self-evaluation"). It is used for:
 
