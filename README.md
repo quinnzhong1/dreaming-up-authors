@@ -2,6 +2,8 @@
 
 Code for the EMNLP 2026 paper *Dreaming Up Authors: Factual Prevalence and LLM Hallucinations in Academic Authorship Attribution*.
 
+**Paper:** [ACL Anthology](https://aclanthology.org/2026.emnlp-main.2372/) · [arXiv:2611.23530](https://arxiv.org/abs/2611.23530) · DOI: [10.18653/2026.emnlp-main.2372](https://doi.org/10.18653/2026.emnlp-main.2372) · [BibTeX](#12-citation)
+
 The paper asks whether LLMs hallucinate more when they attribute authors to papers that are rarely cited (i.e. less prevalent in their training data). This repository covers:
 
 | Folder | What it does | Paper |
@@ -336,11 +338,27 @@ The stages run Qwen3-32B (peak layer 48) and Mistral-Small-3.2-24B (peak layer 2
 
 ## 12. Citation
 
+If you use this code or data, please cite the EMNLP 2026 paper ([ACL Anthology](https://aclanthology.org/2026.emnlp-main.2372/), [arXiv:2611.23530](https://arxiv.org/abs/2611.23530)):
+
 ```bibtex
-@inproceedings{dreaming-up-authors-2026,
-  title     = {Dreaming Up Authors: Factual Prevalence and LLM Hallucinations in Academic Authorship Attribution},
-  author    = {Zhong, Sijia and Yirga, Tamir and Ma, Yijia and Le, Thai and Hu, Yifan},
-  booktitle = {Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
-  year      = {2026}
+@inproceedings{zhong-etal-2026-dreaming,
+    title = "Dreaming Up Authors: Factual Prevalence and {LLM} Hallucinations in Academic Authorship Attribution",
+    author = "Zhong, Sijia  and
+      Yirga, Tamir  and
+      Ma, Yijia  and
+      Le, Thai  and
+      Hu, Yifan",
+    editor = "Lee, Hung-Yi  and
+      Dev, Sunipa  and
+      Li, Junyi Jessy  and
+      Elliott, Desmond",
+    booktitle = "Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing",
+    month = oct,
+    year = "2026",
+    address = "Budapest, Hungary",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2026.emnlp-main.2372/",
+    doi = "10.18653/2026.emnlp-main.2372",
+    pages = "53827--53863",
 }
 ```
